@@ -1,10 +1,14 @@
 # FridgeMaster3000
 
-![Screenshot](_default/doc/screenshot_fridgemaster3000.png)
+![Screenshot](doc/screenshot_fridgemaster3000.png)
 
 ## What is this app for?
 
-FridgeMaster3000 is a web application designed to help you manage your fridge inventory. It allows you to track items and categorize them. Make lists of basically anything you can count and want to keep track of. 
+FridgeMaster3000 is a web application designed to help you manage your fridge inventory. It allows you to track items and categorize them. Make lists of basically anything you can count and want to keep track of.
+
+## Security
+
+Well... there is none. No login, no HTTPS no nothing just a plain simple app I vibe-coded in an afternoon to test out the capabilities of Devstral-small.
 
 ## Running locally with py4web (without Docker)
 
