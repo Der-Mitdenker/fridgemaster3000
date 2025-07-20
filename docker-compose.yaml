@@ -1,0 +1,10 @@
+services:
+  web:
+    image: ghcr.io/der-mitdenker/fridgemaster3000:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - fridgemaster3000-data:/project-folder/apps/_default/databases
+
+volumes:
+  fridgemaster3000-data:
