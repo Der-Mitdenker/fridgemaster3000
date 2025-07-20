@@ -1,0 +1,34 @@
+[[for item in items:]]
+<tr id="item-[[=item.id]]" data-item-id="[[=item.id]]">
+  <td>[[=item.name]]</td>
+  <td id="quantity-[[=item.id]]" class="[[='has-text-danger' if item.quantity == 0 else '']]">[[=item.quantity]]</td>
+  <td>
+    <button class="button is-light is-small is-rounded" hx-post="[[=URL('item/change_quantity')]]"
+            hx-vals='{"id": "[[=item.id]]", "delta": 1, "category": "[[=(request.params.get('category', 'default_list'))]]"}' hx-target="#quantity-[[=item.id]]">
+      <span class="icon"><i class="fas fa-plus"></i></span>
+    </button>
+    <button class="button is-light is-small is-rounded" hx-post="[[=URL('item/change_quantity')]]"
+            hx-vals='{"id": "[[=item.id]]", "delta": -1, "category": "[[=(request.params.get('category', 'default_list'))]]"}' hx-target="#quantity-[[=item.id]]">
+      <span class="icon"><i class="fas fa-minus"></i></span>
+    </button>
+    <button class="button is-warning is-small is-rounded" hx-post="[[=URL('item/delete')]]"
+            hx-confirm="Are you sure you want to delete this item?"
+            hx-vals='{"id": "[[=item.id]]", "category": "[[=(request.params.get('category', 'default_list'))]]"}' hx-target="#item-[[=item.id]]" hx-swap="outerHTML:remove">
+      <span class="icon"><i class="fas fa-trash"></i></span>
+    </button>
+  </td>
+</tr>
+[[pass]]
+
+<script>
+document.addEventListener('htmx:afterSwap', function(evt) {
+  if (evt.detail.target.id.startsWith('quantity-')) {
+    const quantity = parseInt(evt.detail.target.textContent);
+    if (quantity === 0) {
+      evt.detail.target.classList.add('has-text-danger');
+    } else {
+      evt.detail.target.classList.remove('has-text-danger');
+    }
+  }
+});
+</script>

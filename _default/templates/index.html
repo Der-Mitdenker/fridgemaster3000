@@ -1,0 +1,108 @@
+[[extend 'layout.html']]
+
+[[block page_head]]
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+<script src="https://unpkg.com/htmx.org@1.7.0"></script>
+<title>Inventory Manager</title>
+[[end]]
+
+<div class="container">
+  <!-- Category selector and name -->
+    <!-- Level container for both left and right aligned content -->
+    <div class="level">
+      <!-- Left-aligned content for category controls -->
+      <div class="level-left">
+        <div class="level-item">
+          <h1 class="title">List: </h1>
+
+          <!-- Dropdown for switching categories -->
+          <form id="switch-category-form" hx-get="[[=URL('index')]]" style="display:inline;">
+            <div class="select is-primary subtitle ml-2">
+              <select name="category" onchange="this.form.submit()">
+                [[for category in categories:]]
+                  <option value="[[=category.name]]" [[='selected' if category.name == title else '']]>
+                    [[=category.name]]
+                  </option>
+                [[pass]]
+              </select>
+            </div>
+          </form>
+
+          <!-- Delete category button -->
+          <button class="button is-warning ml-3"
+                  onclick="if(confirm('Are you sure you want to delete this list? This action cannot be undone.')) {
+                            document.getElementById('delete-category-form').submit();
+                          }">
+            Delete List
+          </button>
+        </div>
+
+        <!-- Hidden form for deleting the category -->
+        <form id="delete-category-form" method="post" action="[[=URL('category/delete')]]"
+              style="display:none;">
+          <input type="hidden" name="category" value="[[=title]]">
+        </form>
+      </div>
+
+      <!-- Right-aligned content for adding new categories -->
+      <div class="level-right">
+        <div class="field has-addons is-medium">
+          <p class="control">
+            <input type="text" id="new-category-input" class="input"
+                   placeholder="New list name">
+          </p>
+          <p class="control">
+            <button class="button is-success is-medium"
+                    onclick="addCategory()">
+              Add List
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  <!-- Item list -->
+  <table class="table is-fullwidth" id="item-table">
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      [[include 'partials/item_row.html']]
+    </tbody>
+  </table>
+
+  <!-- Add item form -->
+  <div class="box">
+    <h2 class="subtitle">Add New Item</h2>
+    <form id="add-item-form" hx-post="[[=URL('item/add')]]"
+          hx-target="#item-table tbody" hx-swap="innerHTML:replace">
+      <input type="hidden" name="category" value="[[=title]]">
+      <div class="field">
+        <div class="control">
+          <input type="text" name="name" class="input" placeholder="e.g., Milk, Eggs" required>
+        </div>
+      </div>
+      <button class="button is-primary">Add Item</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Automatically submit the form when a category is selected
+document.querySelector('#switch-category-form select').addEventListener('change', function() {
+  this.form.submit();
+});
+
+// Add category functionality
+function addCategory() {
+  var newCategoryName = document.getElementById('new-category-input').value;
+  if (newCategoryName) {
+    window.location.href = "[[=URL('index')]]?category=" + encodeURIComponent(newCategoryName);
+  }
+}
+
+</script>
