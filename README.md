@@ -8,7 +8,7 @@ FridgeMaster3000 is a web application designed to help you manage your fridge in
 
 ## Security
 
-Well... there is none. No login, no HTTPS no nothing just a plain simple app I vibe-coded in an afternoon to test out the capabilities of Devstral-small.
+Well... there is none. No login, no HTTPS no nothing. Just a plain simple app I vibe-coded in an afternoon to test out the capabilities of Devstral-small.
 
 ## Running locally with py4web (without Docker)
 
