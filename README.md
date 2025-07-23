@@ -45,7 +45,9 @@ To build and run the Docker container, follow these steps:
 
 2. **Run the Docker container:**
    ```sh
-   docker run -d -p 8001:8000 --name fridgemaster3000 fridgemaster3000:latest
+   docker run -d -p 8001:8000 --name fridgemaster3000 \
+     -v fridgemaster3000-data:/project-folder/apps/_default/databases \
+     fridgemaster3000:latest
    ```
 
 3. Open your browser and go to http://localhost:8001
@@ -58,7 +60,7 @@ To use the docker-compose file to run the official container from GitHub Contain
    ```yaml
    services:
      web:
-       image: ghcr.io/your-username/fridgemaster3000:latest
+       image: ghcr.io/der-mitdenker/fridgemaster3000:latest
        ports:
          - "8001:8000"
        volumes:
